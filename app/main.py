@@ -2,7 +2,6 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import psycopg2, ollama
 from fastapi.middleware.cors import CORSMiddleware
-import os
 from dotenv import load_dotenv
 from config import env_config
 from groq import Groq
@@ -109,4 +108,4 @@ async def ask_AI(question_payload: requestInput):
 
 
 
-
+#test auto deploy
