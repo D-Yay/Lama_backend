@@ -7,6 +7,8 @@ class Settings(BaseSettings):
     GROQ_API_KEY : str 
     #this has no fallback default, if couldnt find the var then the app crashes
 
+    NOMIC_API_KEY : str
+
     PASSWORD : str
 
     model_config = SettingsConfigDict(env_file='.env')
