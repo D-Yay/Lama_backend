@@ -3,3 +3,4 @@ uvicorn
 pydantic
 psycopg2-binary
 python-dotenv
+ollama==0.2.1

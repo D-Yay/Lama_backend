@@ -7,6 +7,8 @@ class Settings(BaseSettings):
     GROQ_API_KEY : str 
     #this has no fallback default, if couldnt find the var then the app crashes
 
+    PASSWORD : str
+
     model_config = SettingsConfigDict(env_file='.env')
     #model_config is an fixed built in parameter, must write it like that
     #this tell the model what file to look for

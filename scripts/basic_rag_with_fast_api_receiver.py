@@ -4,16 +4,17 @@ import psycopg2, ollama
 from fastapi.middleware.cors import CORSMiddleware
 import os
 from dotenv import load_dotenv
-from config import env_config
-from groq import Groq
 
+#we unpack the password inside the .env file
+load_dotenv()
+#load the .env file content and load it to memory
 
-supabase_password = env_config.PASSWORD
+supabase_password = os.getenv('PASSWORD')
+#fetch the password from memory
 
 #pydantic firewall, will return error if data doesnt match type hint
 class requestInput(BaseModel):
     user_question : str
-
 
 app = FastAPI()
 
@@ -25,6 +26,8 @@ app.add_middleware(
 	allow_credentials = True,
 	allow_methods = ['*'],
 	allow_headers = ['*'],
+	
+
 )
 
 
@@ -40,8 +43,9 @@ async def ask_AI(question_payload: requestInput):
         #after the db to .co
         database='postgres',
         user='postgres',
-        password= supabase_password,
+        password= {supabase_password},
         port='5432'
+
     )
 
     cursor = connection.cursor()
@@ -74,27 +78,9 @@ async def ask_AI(question_payload: requestInput):
 
     '''
 
-    AI_text_response = ''
 
-    #now we use the environment state to decide whether to use Ollama locally or send a request to Grog
-    current_environemnt = env_config.ENVIRONMENT
-
-    if current_environemnt == 'development':
-        #we use ollama to run llama3 locally
-
-        AI_response = ollama.chat(model='llama3', messages= [{'role':'system', 'content': system_prompt}, {'role':'user', 'content':augmented_prompt}])
-        AI_text_response = AI_response['message']['content']
-    else:
-        #we send a request to Grog to run on cloud
-        grog_api_key = env_config.GROQ_API_KEY
-        client = Groq(api_key= grog_api_key)
-
-        AI_response = client.chat.completions.create(
-            model='llama3-8b-8192',
-            messages=[{'role':'system', 'content':system_prompt}, {'role':'user', 'content': augmented_prompt}]
-        )
-        AI_text_response = AI_response.choices[0].message.content
-
+    AI_response = ollama.chat(model='llama3', messages= [{'role':'system', 'content': system_prompt}, {'role':'user', 'content':augmented_prompt}])
+    AI_text_response = AI_response['message']['content']
 
     return {'status' : 'success', 'answer':AI_text_response}
 
