@@ -6,3 +6,4 @@ python-dotenv
 ollama==0.2.1
 pydantic_settings
 groq
+requests
