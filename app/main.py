@@ -68,7 +68,7 @@ async def ask_AI(question_payload: requestInput):
         port = '6543',
         database = 'postgres',
         user = "postgres.tvohnpbfqfofsdhrukpq",
-        password = supabase_password
+        password = supabase_password,
         sslmode='require'
     )
 
