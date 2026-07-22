@@ -2,6 +2,15 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import psycopg2, ollama
 from fastapi.middleware.cors import CORSMiddleware
+import os
+from dotenv import load_dotenv
+
+#we unpack the password inside the .env file
+load_dotenv()
+#load the .env file content and load it to memory
+
+supabase_password = os.getenv('PASSWORD')
+#fetch the password from memory
 
 #pydantic firewall, will return error if data doesnt match type hint
 class requestInput(BaseModel):
@@ -34,7 +43,7 @@ async def ask_AI(question_payload: requestInput):
         #after the db to .co
         database='postgres',
         user='postgres',
-        password='Tslb1112008!!',
+        password= {supabase_password},
         port='5432'
 
     )
