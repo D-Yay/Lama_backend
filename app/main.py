@@ -63,14 +63,12 @@ async def ask_AI(question_payload: requestInput):
         vectorized_question = cloud_response.json()['embeddings'][0]
 
 
-
     connection = psycopg2.connect(
-        host='db.tvohnpbfqfofsdhrukpq.supabase.co',
-        #after the db to .co
-        database='postgres',
-        user='postgres',
-        password= supabase_password,
-        port='5432'
+        host='aws-1-ap-southeast-1.pooler.supabase.com'
+        port = '6543'
+        database = 'postgres'
+        user = 'postgres.tvohnpbfqfofsdhrukpq'
+        password = supabase_password
     )
 
     cursor = connection.cursor()
