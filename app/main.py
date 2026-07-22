@@ -64,10 +64,10 @@ async def ask_AI(question_payload: requestInput):
 
 
     connection = psycopg2.connect(
-        host='aws-1-ap-southeast-1.pooler.supabase.com'
-        port = '6543'
-        database = 'postgres'
-        user = 'postgres.tvohnpbfqfofsdhrukpq'
+        host='aws-1-ap-southeast-1.pooler.supabase.com',
+        port = '6543',
+        database = 'postgres',
+        user = 'postgres.tvohnpbfqfofsdhrukpq',
         password = supabase_password
     )
 
