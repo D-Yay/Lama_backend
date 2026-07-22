@@ -63,8 +63,14 @@ async def ask_AI(question_payload: requestInput):
         vectorized_question = cloud_response.json()['embeddings'][0]
 
 
-    connection = psycopg2.connect(f'postgresql://postgres.tvohnpbfqfofsdhrukpq:{supabase_password}@aws-1-ap-southeast-1.pooler.supabase.com:6543/postgres')
-
+    connection = psycopg2.connect(
+        host='aws-1-ap-southeast-1.pooler.supabase.com',
+        port = '6543',
+        database = 'postgres',
+        user = '"postgres.tvohnpbfqfofsdhrukpq"',
+        password = supabase_password
+    )
+    
     cursor = connection.cursor()
 
     cursor.execute('SELECT doc_content FROM document_chunk ORDER BY chunk_embedding <=> %s LIMIT 1', (str(vectorized_question),))
