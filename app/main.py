@@ -9,6 +9,8 @@ import requests
 
 
 supabase_password = env_config.PASSWORD
+print(supabase_password)
+
 grog_api_key = env_config.GROQ_API_KEY
 client = Groq(api_key= grog_api_key)
 nomic_api_key = env_config.NOMIC_API_KEY
@@ -67,10 +69,10 @@ async def ask_AI(question_payload: requestInput):
         host='aws-1-ap-southeast-1.pooler.supabase.com',
         port = '6543',
         database = 'postgres',
-        user = '"postgres.tvohnpbfqfofsdhrukpq"',
+        user = "postgres.tvohnpbfqfofsdhrukpq",
         password = supabase_password
     )
-    
+
     cursor = connection.cursor()
 
     cursor.execute('SELECT doc_content FROM document_chunk ORDER BY chunk_embedding <=> %s LIMIT 1', (str(vectorized_question),))
