@@ -9,8 +9,6 @@ import requests
 
 
 supabase_password = env_config.PASSWORD
-print(supabase_password)
-
 grog_api_key = env_config.GROQ_API_KEY
 client = Groq(api_key= grog_api_key)
 nomic_api_key = env_config.NOMIC_API_KEY
@@ -71,6 +69,7 @@ async def ask_AI(question_payload: requestInput):
         database = 'postgres',
         user = "postgres.tvohnpbfqfofsdhrukpq",
         password = supabase_password
+        sslmode='require'
     )
 
     cursor = connection.cursor()
@@ -115,7 +114,7 @@ async def ask_AI(question_payload: requestInput):
         #we send a request to Grog to run on cloud
 
         AI_response = client.chat.completions.create(
-            model='llama3-8b-8192',
+            model='llama-3.1-8b-instant',
             messages=[{'role':'system', 'content':system_prompt}, {'role':'user', 'content': augmented_prompt}]
         )
         AI_text_response = AI_response.choices[0].message.content
